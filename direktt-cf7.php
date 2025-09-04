@@ -1,0 +1,267 @@
+<?php
+
+// Plugin Name: Direktt Contacf Form 7 Integration
+
+register_activation_hook( __FILE__, 'direktt_cf7_activation_check' );
+
+function direktt_cf7_activation_check() {
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    $required_plugin = 'direktt-plugin/direktt.php';
+
+    if ( ! is_plugin_active( $required_plugin ) ) {
+        deactivate_plugins( plugin_basename( __FILE__ ) );
+
+        wp_die(
+            esc_html__( 'Direktt Contact Form 7 integration plugin requires the Direktt Plugin to be active. Please activate Direktt Plugin first.', 'direktt-cf7' ),
+            esc_html__( 'Plugin Activation Error', 'direktt-cf7' ),
+            array( 'back_link' => true )
+        );
+    }
+
+    // $required_plugin = 'contact-form-7/wp-contact-form-7.php';
+
+    // if ( ! is_plugin_active( $required_plugin ) ) {
+    //     deactivate_plugins( plugin_basename( __FILE__ ) );
+
+    //     wp_die(
+    //         esc_html__( 'Direktt Contact Form 7 integration plugin requires Contact Form 7 to be active. Please activate Contact Form 7 first.', 'direktt-cf7' ),
+    //         esc_html__( 'Plugin Activation Error', 'direktt-cf7' ),
+    //         array( 'back_link' => true )
+    //     );
+    // }
+}
+
+add_filter( 'wpcf7_editor_panels', 'direktt_cf7_add_panels' );
+
+function direktt_cf7_add_panels( $panels ) {
+    $panels['direktt'] = array(
+        'title'    => esc_html__( 'Direktt', 'direktt-cf7' ),
+        'callback' => 'direktt_cf7_render_panel',
+    );
+
+    return $panels;
+}
+
+function direktt_cf7_render_panel( $post ) {
+    $send_to_subscriber = get_post_meta( $post->id(), '_direktt_cf7_send_to_subscriber', true );
+    $subscriber_message = get_post_meta( $post->id(), '_direktt_cf7_subscriber_message', true );
+    $send_to_admin      = get_post_meta( $post->id(), '_direktt_cf7_send_to_admin', true );
+    $admin_message      = get_post_meta( $post->id(), '_direktt_cf7_admin_message', true );
+    ?>
+    <h2><?php echo esc_html__( 'Direktt Settings', 'direktt-cf7' ); ?></h2>
+    <p><?php echo esc_html__( 'These settings allow you to send messages to subscribers and admins when the form is submitted.', 'direktt-cf7' ); ?></p>
+    <p><?php echo esc_html__( 'You can also customize the messages sent to subscribers and admins.', 'direktt-cf7' ); ?></p>
+    <p><?php echo esc_html__( 'Make sure to save your changes after configuring the settings.', 'direktt-cf7' ); ?></p>
+    <table class="form-table">
+        <tr>
+            <th scope="row">
+                <?php echo esc_html__( 'Send to subscriber', 'direktt-cf7' ); ?>
+            </th>
+            <td>
+                <input type="checkbox" id="send-to-subscriber" name="send-to-subscriber" value="1" <?php checked( $send_to_subscriber, 1 ); ?>>
+                <label for="send-to-subscriber"><?php echo esc_html__( 'Send a message to subscriber when form is submitted', 'direktt-cf7' ); ?></label>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="subscriber-message"><?php echo esc_html__( 'Subscriber message', 'direktt-cf7' ); ?></label>
+            </th>
+            <td>
+                <textarea id="subscriber-message" name="subscriber-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $subscriber_message ); ?></textarea>
+                <p class="description">
+                    <?php echo esc_html__( 'Message sent to subscriber when the form is submitted. TODO etc text.', 'direktt-cf7' ); ?>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <?php echo esc_html__( 'Send to admin', 'direktt-cf7' ); ?>
+            </th>
+            <td>
+                <input type="checkbox" id="send-to-admin" name="send-to-admin" value="1" <?php checked( $send_to_admin, 1 ); ?>>
+                <label for="send-to-admin"><?php echo esc_html__( 'Send a message to admin when form is submitted', 'direktt-cf7' ); ?></label>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">
+                <label for="admin-message"><?php echo esc_html__( 'Admin message', 'direktt-cf7' ); ?></label>
+            </th>
+            <td>
+                <textarea id="admin-message" name="admin-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $admin_message ); ?></textarea>
+                <p class="description">
+                    <?php echo esc_html__( 'Message sent to admin when the form is submitted. TODO etc text.', 'direktt-cf7' ); ?>
+                </p>
+            </td>
+        </tr>
+        <?php
+        wp_nonce_field( 'direktt_cf7_save', 'direktt_cf7_save_nonce' );
+        ?>
+    </table>
+    <?php
+}
+
+add_action( 'wpcf7_after_save', 'direktt_cf7_save_settings' );
+
+function direktt_cf7_save_settings( $contact_form ) {
+    if ( ! isset( $_POST['direktt_cf7_save_nonce'] ) || ! wp_verify_nonce( $_POST['direktt_cf7_save_nonce'], 'direktt_cf7_save' ) ) {
+        return;
+    }
+
+    $post_id = $contact_form->id();
+
+    $send_to_subscriber = isset( $_POST['send-to-subscriber'] ) ? 1 : 0;
+    $subscriber_message = isset( $_POST['subscriber-message'] ) ? sanitize_textarea_field( $_POST['subscriber-message'] ) : '';
+    $send_to_admin      = isset( $_POST['send-to-admin'] ) ? 1 : 0;
+    $admin_message      = isset( $_POST['admin-message'] ) ? sanitize_textarea_field( $_POST['admin-message'] ) : '';
+
+    update_post_meta( $post_id, '_direktt_cf7_send_to_subscriber', $send_to_subscriber );
+    update_post_meta( $post_id, '_direktt_cf7_subscriber_message', $subscriber_message );
+    update_post_meta( $post_id, '_direktt_cf7_send_to_admin', $send_to_admin );
+    update_post_meta( $post_id, '_direktt_cf7_admin_message', $admin_message );
+}
+
+add_action( 'wpcf7_mail_sent', 'direktt_cf7_send_messages' );
+
+function direktt_cf7_send_messages( $contact_form ) {
+    $submission = WPCF7_Submission::get_instance();
+    if ( ! $submission ) {
+        return;
+    }
+
+    $posted_data = $submission->get_posted_data();
+
+    $post_id = $contact_form->id();
+
+    // helper: sanitize a single value (recurses for arrays)
+    $sanitize_cf7_value = function( $key, $value ) use ( &$sanitize_cf7_value ) {
+        if ( is_array( $value ) ) {
+            $out = array();
+            foreach ( $value as $v ) {
+                $out[] = $sanitize_cf7_value( $key, $v );
+            }
+            return $out;
+        }
+
+        $value = (string) $value;
+        if ( $value === '' ) {
+            return '';
+        }
+
+        // email
+        if ( filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
+            return sanitize_email( $value );
+        }
+
+        // url
+        if ( filter_var( $value, FILTER_VALIDATE_URL ) ) {
+            return esc_url_raw( $value );
+        }
+
+        // numbers (int/float)
+        if ( is_numeric( $value ) ) {
+            // keep numeric type but cast to string for message usage
+            return ( strpos( $value, '.' ) !== false ) ? (string) floatval( $value ) : (string) intval( $value );
+        }
+
+        // telephone-like fields (based on name)
+        if ( preg_match( '/phone|tel|mobile|telephone/i', $key ) ) {
+            // allow digits, +, spaces, parentheses, dashes
+            $value = preg_replace( '/[^\d+\s\-\(\)]/', '', $value );
+            return sanitize_text_field( $value );
+        }
+
+        // textarea / multiline detection: allow longer input via sanitize_textarea_field
+        if ( strpos( $value, "\n" ) !== false || strlen( $value ) > 200 ) {
+            return sanitize_textarea_field( $value );
+        }
+
+        // fallback: simple text
+        return sanitize_text_field( $value );
+    };
+
+    // build replacements map
+    $placeholders = array();
+
+    $subscription_id = isset( $posted_data['direktt-subscription-id'] ) ? $posted_data['direktt-subscription-id'] : '';
+
+    // sanitize posted fields
+    foreach ( $posted_data as $key => $value ) {
+        $sanitized = $sanitize_cf7_value( $key, $value );
+
+        // join arrays (checkboxes, multiple selects) into a readable string
+        if ( is_array( $sanitized ) ) {
+            $sanitized = implode( ', ', $sanitized );
+        }
+
+        $placeholders[ '[' . $key . ']' ] = $sanitized;
+    }
+
+    $send_to_subscriber = get_post_meta( $post_id, '_direktt_cf7_send_to_subscriber', true );
+    $subscriber_message = get_post_meta( $post_id, '_direktt_cf7_subscriber_message', true );
+    $send_to_admin      = get_post_meta( $post_id, '_direktt_cf7_send_to_admin', true );
+    $admin_message      = get_post_meta( $post_id, '_direktt_cf7_admin_message', true );
+    
+    if ( $send_to_subscriber && ! empty( $subscriber_message ) && ! empty( $subscription_id ) ) {
+        $final_subscriber_message = strtr( $subscriber_message, $placeholders );
+
+        $pushSubscriberMessage = array(
+            "type" =>  "text",
+            "content" => $final_subscriber_message,
+        );
+
+        Direktt_Message::send_message( array( $subscription_id => $pushSubscriberMessage ) );
+    }
+
+    if ( $send_to_admin && ! empty( $admin_message ) ) {
+        $final_admin_message = strtr( $admin_message, $placeholders );
+
+        $pushAdminMessage = array(
+            "type" =>  "text",
+            "content" => $final_admin_message,
+        );
+
+        Direktt_Message::send_message_to_admin( $pushAdminMessage );
+
+        if ( ! empty( $subscription_id ) ) {
+            $user = Direktt_User::get_user_by_subscription_id( $subscription_id );
+            $display_name = get_the_title( $user['ID'] );
+
+            Direktt_Message::send_message_to_admin(
+                array(
+                    "type" => "rich",
+                    "content" => json_encode( 
+                        array(
+                            "subtype" => "buttons",
+                            "msgObj" => array(
+                                array(
+                                    "txt" => "$display_name ($subscription_id) submitted a form. Click to chat with them.",
+                                    "label" => "Go to chat",
+                                    "action" => array(
+                                        "type" => "chat",
+                                        "params" => array(
+                                            "subscriptionId" => "$subscription_id",
+                                        ),
+                                        "retVars" => new stdClass()
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }
+}
+
+add_filter( 'wpcf7_form_hidden_fields', 'direktt_cf7_add_subscription_id' );
+
+function direktt_cf7_add_subscription_id( $hidden_fields ) {
+    global $direktt_user;
+    $subscription_id = $direktt_user['direktt_user_id'] ?? '';
+    $hidden_fields['direktt-subscription-id'] = $subscription_id;
+
+    return $hidden_fields;
+}
