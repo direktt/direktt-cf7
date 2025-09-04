@@ -1,8 +1,20 @@
 <?php
 
-// Plugin Name: Direktt Contacf Form 7 Integration
+/**
+ * Plugin Name: Direktt Contact Form 7 Integration
+ * Description: Direktt Contact Form 7 Integration Direktt Plugin
+ * Version: 1.0.0
+ * Author: Direktt
+ * Author URI: https://direktt.com/
+ * License: GPL2
+ */
 
-register_activation_hook( __FILE__, 'direktt_cf7_activation_check' );
+// If this file is called directly, abort.
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+add_action( 'plugins_loaded', 'direktt_cf7_activation_check', -20 );
 
 function direktt_cf7_activation_check() {
     if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -12,26 +24,21 @@ function direktt_cf7_activation_check() {
     $required_plugin = 'direktt-plugin/direktt.php';
 
     if ( ! is_plugin_active( $required_plugin ) ) {
+        add_action( 'after_plugin_row_direktt-customer-review/direktt-customer-review.php', function ( $plugin_file, $plugin_data, $status ) {
+            $colspan = 3;
+            ?>
+            <tr class="plugin-update-tr">
+                <td colspan="<?php echo esc_attr( $colspan ); ?>" style="box-shadow: none;">
+                    <div style="color: #b32d2e; font-weight: bold;">
+                        <?php echo esc_html__( 'Direktt Contact Form 7 Integration requires the Direktt WordPress Plugin to be active. Please activate Direktt WordPress Plugin first.', 'direktt-cf7' ); ?>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }, 10, 3);
+
         deactivate_plugins( plugin_basename( __FILE__ ) );
-
-        wp_die(
-            esc_html__( 'Direktt Contact Form 7 integration plugin requires the Direktt Plugin to be active. Please activate Direktt Plugin first.', 'direktt-cf7' ),
-            esc_html__( 'Plugin Activation Error', 'direktt-cf7' ),
-            array( 'back_link' => true )
-        );
     }
-
-    // $required_plugin = 'contact-form-7/wp-contact-form-7.php';
-
-    // if ( ! is_plugin_active( $required_plugin ) ) {
-    //     deactivate_plugins( plugin_basename( __FILE__ ) );
-
-    //     wp_die(
-    //         esc_html__( 'Direktt Contact Form 7 integration plugin requires Contact Form 7 to be active. Please activate Contact Form 7 first.', 'direktt-cf7' ),
-    //         esc_html__( 'Plugin Activation Error', 'direktt-cf7' ),
-    //         array( 'back_link' => true )
-    //     );
-    // }
 }
 
 add_filter( 'wpcf7_editor_panels', 'direktt_cf7_add_panels' );
