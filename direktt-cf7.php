@@ -37,7 +37,7 @@ function direktt_cf7_activation_check() {
         // Show an error notice for this request
         add_action('admin_notices', function () {
             echo '<div class="notice notice-error is-dismissible"><p>'
-                . esc_html__('Direktt Contact Form 7 activation failed: The Direktt WordPress Plugin must be active first.', 'direktt-auto-greet')
+                . esc_html__('Direktt Contact Form 7 activation failed: The Direktt WordPress Plugin must be active first.', 'direktt-cf7')
                 . '</p></div>';
         });
 
@@ -47,10 +47,10 @@ function direktt_cf7_activation_check() {
             function () {
                 echo '<tr class="plugin-update-tr"><td colspan="3" style="box-shadow:none;">'
                     . '<div style="color:#b32d2e;font-weight:bold;">'
-                    . esc_html__('Direktt Contact Form 7 requires the Direktt WordPress Plugin to be active. Please activate it first.', 'direktt-auto-greet')
+                    . esc_html__('Direktt Contact Form 7 requires the Direktt WordPress Plugin to be active. Please activate it first.', 'direktt-cf7')
                     . '</div></td></tr>';
             },
-            10,
+            3,
             0
         );
     }
