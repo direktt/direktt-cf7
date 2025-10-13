@@ -50,7 +50,7 @@ function direktt_cf7_activation_check() {
                     . esc_html__('Direktt Contact Form 7 requires the Direktt WordPress Plugin to be active. Please activate it first.', 'direktt-cf7')
                     . '</div></td></tr>';
             },
-            3,
+            10,
             0
         );
     }
