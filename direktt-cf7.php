@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Direktt Contact Form 7 Integration
  * Description: Direktt Contact Form 7 Integration Addon
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: Direktt
  * Author URI: https://direktt.com/
  * License: GPL2
