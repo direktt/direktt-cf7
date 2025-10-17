@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Direktt Contact Form 7 Integration
- * Description: Direktt Contact Form 7 Integration Direktt Plugin
+ * Description: Direktt Contact Form 7 Integration Addon
  * Version: 1.0.0
  * Author: Direktt
  * Author URI: https://direktt.com/
@@ -13,6 +13,17 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
+
+$direktt_cf7_plugin_version = "1.0.0";
+$direktt_cf7_github_update_cache_allowed = true;
+
+require_once plugin_dir_path( __FILE__ ) . 'class-direktt-cf7-github-updater.php';
+
+$direktt_cf7_plugin_github_updater  = new Direktt_CF7_Github_Updater( $direktt_cf7_plugin_version, $direktt_cf7_github_update_cache_allowed );
+
+add_filter( 'plugins_api', array( $direktt_cf7_plugin_github_updater, 'github_info' ), 20, 3 );
+add_filter( 'site_transient_update_plugins', array( $direktt_cf7_plugin_github_updater, 'github_update' ));
+add_filter( 'upgrader_process_complete', array( $direktt_cf7_plugin_github_updater, 'purge'), 10, 2 );
 
 add_action( 'plugins_loaded', 'direktt_cf7_activation_check', -20 );
 
