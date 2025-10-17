@@ -55,7 +55,7 @@ class Direktt_CF7_Github_Updater
             return $response;
         }
 
-        $plugin_slug = 'direktt-cf7';
+        $plugin_slug = 'direktt-cf7/direktt-cf7.php';
 
         if (!empty($args->slug) && $args->slug === $plugin_slug) {
 
