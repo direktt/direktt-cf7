@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-$direktt_cf7_plugin_version = "1.0.0";
+$direktt_cf7_plugin_version = "1.0.1";
 $direktt_cf7_github_update_cache_allowed = true;
 
 require_once plugin_dir_path( __FILE__ ) . 'class-direktt-cf7-github-updater.php';
