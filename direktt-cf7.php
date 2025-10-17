@@ -41,7 +41,7 @@ function direktt_cf7_activation_check() {
         deactivate_plugins(plugin_basename(__FILE__));
 
         // Prevent the “Plugin activated.” notice
-        if (isset($_GET['activate'])) {
+        if (isset($_GET['activate'])) { //phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Justification: not a form processing, just removing a query var.
             unset($_GET['activate']);
         }
 
@@ -139,16 +139,16 @@ function direktt_cf7_render_panel( $post ) {
 add_action( 'wpcf7_after_save', 'direktt_cf7_save_settings' );
 
 function direktt_cf7_save_settings( $contact_form ) {
-    if ( ! isset( $_POST['direktt_cf7_save_nonce'] ) || ! wp_verify_nonce( $_POST['direktt_cf7_save_nonce'], 'direktt_cf7_save' ) ) {
+    if ( ! isset( $_POST['direktt_cf7_save_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['direktt_cf7_save_nonce'] ) ), 'direktt_cf7_save' ) ) {
         return;
     }
 
     $post_id = $contact_form->id();
 
     $send_to_subscriber = isset( $_POST['send-to-subscriber'] ) ? 1 : 0;
-    $subscriber_message = isset( $_POST['subscriber-message'] ) ? sanitize_textarea_field( $_POST['subscriber-message'] ) : '';
+    $subscriber_message = isset( $_POST['subscriber-message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['subscriber-message'] ) ) : '';
     $send_to_admin      = isset( $_POST['send-to-admin'] ) ? 1 : 0;
-    $admin_message      = isset( $_POST['admin-message'] ) ? sanitize_textarea_field( $_POST['admin-message'] ) : '';
+    $admin_message      = isset( $_POST['admin-message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['admin-message'] ) ) : '';
 
     update_post_meta( $post_id, '_direktt_cf7_send_to_subscriber', $send_to_subscriber );
     update_post_meta( $post_id, '_direktt_cf7_subscriber_message', $subscriber_message );
