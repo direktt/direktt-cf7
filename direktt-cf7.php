@@ -17,9 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 $direktt_cf7_plugin_version = "1.0.1";
 $direktt_cf7_github_update_cache_allowed = true;
 
-require_once plugin_dir_path( __FILE__ ) . 'class-direktt-cf7-github-updater.php';
+require_once plugin_dir_path( __FILE__ ) . 'direktt-github-updater/class-direktt-github-updater.php';
 
-$direktt_cf7_plugin_github_updater  = new Direktt_CF7_Github_Updater( $direktt_cf7_plugin_version, $direktt_cf7_github_update_cache_allowed );
+$direktt_cf7_plugin_github_updater  = new Direktt_Github_Updater( 
+    $direktt_cf7_plugin_version, 
+    'direktt-cf7/direktt-cf7.php',
+    'https://raw.githubusercontent.com/direktt/direktt-cf7/master/info.json',
+    'direktt_cf7_github_updater',
+    $direktt_cf7_github_update_cache_allowed );
 
 add_filter( 'plugins_api', array( $direktt_cf7_plugin_github_updater, 'github_info' ), 20, 3 );
 add_filter( 'site_transient_update_plugins', array( $direktt_cf7_plugin_github_updater, 'github_update' ));
