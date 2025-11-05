@@ -275,8 +275,8 @@ function direktt_cf7_send_messages( $contact_form ) {
                             "subtype" => "buttons",
                             "msgObj" => array(
                                 array(
-                                    "txt" => "$display_name ($subscription_id) submitted a form. Click to chat with them.",
-                                    "label" => "Go to chat",
+                                    "txt" => esc_html( "$display_name ($subscription_id)" ) . esc_html__( ' submitted a form. Click to chat with them.', 'direktt-cf7' ),
+                                    "label" => esc_html__( 'Go to chat', 'direktt-cf7' ),
                                     "action" => array(
                                         "type" => "chat",
                                         "params" => array(
