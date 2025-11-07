@@ -93,7 +93,7 @@ function direktt_cf7_render_panel( $post ) {
     <p><?php echo esc_html__( 'These settings allow you to send messages to subscribers and admins when the form is submitted.', 'direktt-cf7' ); ?></p>
     <p><?php echo esc_html__( 'You can also customize the messages sent to subscribers and admins.', 'direktt-cf7' ); ?></p>
     <p><?php echo esc_html__( 'Make sure to save your changes after configuring the settings.', 'direktt-cf7' ); ?></p>
-    <table class="form-table">
+    <table class="form-table direktt-cf7-table">
         <tr>
             <th scope="row">
                 <?php echo esc_html__( 'Send to subscriber', 'direktt-cf7' ); ?>
@@ -103,7 +103,7 @@ function direktt_cf7_render_panel( $post ) {
                 <label for="send-to-subscriber"><?php echo esc_html__( 'Send a message to subscriber when form is submitted', 'direktt-cf7' ); ?></label>
             </td>
         </tr>
-        <tr>
+        <tr id="direktt-cf7-mt-subscriber">
             <th scope="row">
                 <label for="subscriber-message"><?php echo esc_html__( 'Subscriber message', 'direktt-cf7' ); ?></label>
             </th>
@@ -123,7 +123,7 @@ function direktt_cf7_render_panel( $post ) {
                 <label for="send-to-admin"><?php echo esc_html__( 'Send a message to admin when form is submitted', 'direktt-cf7' ); ?></label>
             </td>
         </tr>
-        <tr>
+        <tr id="direktt-cf7-mt-admin">
             <th scope="row">
                 <label for="admin-message"><?php echo esc_html__( 'Admin message', 'direktt-cf7' ); ?></label>
             </th>
@@ -302,4 +302,16 @@ function direktt_cf7_add_subscription_id( $hidden_fields ) {
     $hidden_fields['direktt-subscription-id'] = $subscription_id;
 
     return $hidden_fields;
+}
+
+function direktt_cf7_enqueue_scripts() {
+    global $pagenow;
+    $screen = get_current_screen();
+    if ( ! $screen ) {
+        return;
+    }
+    $page   = preg_replace( '/.*page_/', '', $screen->id );
+    if ( 'admin.php' === $pagenow && ( 'wpcf7-new' === $page || ( 'wpcf7' === $page && isset( $_GET['post'] ) ) ) ) {
+        wp_enqueue_style( 'direktt-cf7-css', plugin_dir_url( __FILE__ ) . 'assets/css/direktt-cf7.css', array(), filemtime( plugin_dir_path( __FILE__ ) . 'assets/css/direktt-cf7.css' ) );
+    }
 }
