@@ -304,6 +304,8 @@ function direktt_cf7_add_subscription_id( $hidden_fields ) {
     return $hidden_fields;
 }
 
+add_action( 'admin_enqueue_scripts', 'direktt_cf7_enqueue_scripts' );
+
 function direktt_cf7_enqueue_scripts() {
     global $pagenow;
     $screen = get_current_screen();
