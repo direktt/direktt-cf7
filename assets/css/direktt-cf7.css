@@ -1,0 +1,10 @@
+#contact-form-editor #direktt .form-table.direktt-cf7-table tr#direktt-cf7-mt-subscriber {
+	opacity: 0.5;
+}
+#contact-form-editor #direktt .form-table.direktt-cf7-table:has(input[name="send-to-subscriber"]:checked) tr#direktt-cf7-mt-subscriber  {
+	opacity: 1;
+}		
+
+body {
+	opacity: 0.5;
+}
