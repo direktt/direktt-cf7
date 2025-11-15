@@ -17,7 +17,7 @@ https://github.com/direktt/direktt-cf7/wiki
 
 ## Requirements
 
-- WordPress 5.0 or higher
+- WordPress 5.6 or higher
 - The [Direktt Plugin](https://wordpress.org/plugins/direktt/) (must be active)
 - The [Contact Form 7 Plugin](https://wordpress.org/plugins/contact-form-7/) (must be active)
 
@@ -31,18 +31,21 @@ https://github.com/direktt/direktt-cf7/wiki
 
 ## Usage
 
-### Admin Interface
+### Form Settings
 
 - Find **Contact** (contact form 7 screen) in your WordPress admin menu.
 - Create new Contact form or edit existing one.
-- Go to **Direktt** tab inside Contact form 7 create/edit screen.
-- Set up notifications for users and admins on form submission.
+- Navigate to **Direktt** tab inside **Contact form 7 create/edit** screen.
+- Set up Direktt messages for users and admins on form submission.
 
 ---
 
 ## Updating
 
-The plugin supports updating directly from this GitHub repository.
+The plugin supports updates directly from WordPress admin console.  
+
+You can find all plugin releases in the Releases section of this repository:  
+https://github.com/direktt/direktt-cf7/releases.
 
 ---
 
@@ -54,4 +57,9 @@ GPL-2.0-or-later
 
 ## Support
 
-Contact [Direktt](https://direktt.com/) for questions, issues, or contributions.
+Please use Issues section of this repository for any issue you might have:  
+https://github.com/direktt/direktt-cf7/issues.  
+
+Join Direktt Community on Discord - [Direktt Discord Server](https://discord.gg/xaFWtbpkWp)  
+
+Contact [Direktt](https://direktt.com/) for general questions, issues, or contributions.
