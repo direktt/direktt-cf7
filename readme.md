@@ -6,7 +6,8 @@ It is tightly integrated with the [Direktt WordPress Plugin](https://direktt.com
 
 With Direktt Contact Form 7 extension you can:
 
-- **Send customizable message templates** to customers and channel admins on Contact Form 7 submissions. 
+- **Send customizable messages** to customers and channel admins on Contact Form 7 submissions.
+- Direktt message templates **support all CF7 replcement tags just as any CF7 email template** 
 - **Provide immediate feedback or follow up** right in the Direktt mobile app's chat
 
 ## Documentation
