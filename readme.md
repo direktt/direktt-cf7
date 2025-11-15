@@ -1,8 +1,6 @@
 # Direktt Contact Form 7 Integration
 
-A powerful WordPress plugin for integrating [Contact Form 7](https://contactform7.com/) with the [Direktt Platform](https://direktt.com/).
-
-It is tightly integrated with the [Direktt WordPress Plugin](https://direktt.com/).
+Direktt Contact Form 7 Integration is a powerful WordPress extension that connects your [Contact Form 7](https://contactform7.com/) forms with the [Direktt Platform](https://direktt.com/), transforming form submissions into customizable chat messages for both customers and admins. Fully supporting all CF7 replacement tags and delivering instant follow-up through the Direktt app, this extension makes client communication seamless, responsive, and always personal.
 
 With Direktt Contact Form 7 extension you can:
 
