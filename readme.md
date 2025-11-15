@@ -1,8 +1,19 @@
 # Direktt Contact Form 7 Integration
 
-A powerful WordPress plugin for integrating [Contact Form 7](https://contactform7.com/) with the [Direktt WordPress Plugin](https://direktt.com/).
+A powerful WordPress plugin for integrating [Contact Form 7](https://contactform7.com/) with the [Direktt Platform](https://direktt.com/).
 
-- **Lorem** ipsum
+It is tightly integrated with the [Direktt WordPress Plugin](https://direktt.com/).
+
+With Customer Review extension you can:
+
+- **Send customizable message templates** to customers including interactive message for review submission right from the chat interface.
+- **Review based response templates** to respond diferrently to positive and negative reviews
+- **Browse full user reviews history** for every user via Direktt mobile app or wp-admin.
+
+## Documentation
+
+You can find the detailed plugin documentation, guides and tutorials in the Wiki section:  
+https://github.com/direktt/direktt-cf7/wiki
 
 ## Requirements
 
