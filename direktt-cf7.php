@@ -101,12 +101,12 @@ function direktt_cf7_render_panel( $post ) {
             </th>
             <td>
                 <input type="checkbox" id="send-to-subscriber" name="send-to-subscriber" value="1" <?php checked( $send_to_subscriber, 1 ); ?>>
-                <label for="send-to-subscriber"><?php echo esc_html__( 'Send a message to subscriber when form is submitted', 'direktt-cf7' ); ?></label>
+                <label for="send-to-subscriber"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the subscriber when the form is submitted.', 'direktt-cf7' ); ?></span></label>
             </td>
         </tr>
         <tr id="direktt-cf7-mt-subscriber">
             <th scope="row">
-                <label for="subscriber-message"><?php echo esc_html__( 'Subscriber message', 'direktt-cf7' ); ?></label>
+                <label for="subscriber-message"><?php echo esc_html__( 'Message', 'direktt-cf7' ); ?></label>
             </th>
             <td>
                 <textarea id="subscriber-message" name="subscriber-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $subscriber_message ); ?></textarea>
@@ -124,12 +124,12 @@ function direktt_cf7_render_panel( $post ) {
             </th>
             <td>
                 <input type="checkbox" id="send-to-admin" name="send-to-admin" value="1" <?php checked( $send_to_admin, 1 ); ?>>
-                <label for="send-to-admin"><?php echo esc_html__( 'Send a message to admin when form is submitted', 'direktt-cf7' ); ?></label>
+                <label for="send-to-admin"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the admin when the form is submitted.', 'direktt-cf7' ); ?></span></label>
             </td>
         </tr>
         <tr id="direktt-cf7-mt-admin">
             <th scope="row">
-                <label for="admin-message"><?php echo esc_html__( 'Admin message', 'direktt-cf7' ); ?></label>
+                <label for="admin-message"><?php echo esc_html__( 'Message', 'direktt-cf7' ); ?></label>
             </th>
             <td>
                 <textarea id="admin-message" name="admin-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $admin_message ); ?></textarea>
