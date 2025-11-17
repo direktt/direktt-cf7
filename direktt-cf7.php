@@ -89,14 +89,15 @@ function direktt_cf7_render_panel( $post ) {
     $send_to_admin      = get_post_meta( $post->id(), '_direktt_cf7_send_to_admin', true );
     $admin_message      = get_post_meta( $post->id(), '_direktt_cf7_admin_message', true );
     ?>
-    <h2><?php echo esc_html__( 'Direktt Settings', 'direktt-cf7' ); ?></h2>
+    <h1><?php echo esc_html__( 'Direktt Settings', 'direktt-cf7' ); ?></h1>
     <p><?php echo esc_html__( 'These settings allow you to send messages to subscribers and admins when the form is submitted.', 'direktt-cf7' ); ?></p>
     <p><?php echo esc_html__( 'You can also customize the messages sent to subscribers and admins.', 'direktt-cf7' ); ?></p>
     <p><?php echo esc_html__( 'Make sure to save your changes after configuring the settings.', 'direktt-cf7' ); ?></p>
+    <h2><?php echo esc_html__( 'Send to Subscriber', 'direktt-cf7' ); ?></h3>
     <table class="form-table direktt-cf7-table">
         <tr>
             <th scope="row">
-                <?php echo esc_html__( 'Send to subscriber', 'direktt-cf7' ); ?>
+                <?php echo esc_html__( 'Enable', 'direktt-cf7' ); ?>
             </th>
             <td>
                 <input type="checkbox" id="send-to-subscriber" name="send-to-subscriber" value="1" <?php checked( $send_to_subscriber, 1 ); ?>>
@@ -114,9 +115,12 @@ function direktt_cf7_render_panel( $post ) {
                 </p>
             </td>
         </tr>
+    </table>
+    <h2><?php echo esc_html__( 'Send to Admin', 'direktt-cf7' ); ?></h3>
+    <table class="form-table direktt-cf7-table">
         <tr>
             <th scope="row">
-                <?php echo esc_html__( 'Send to admin', 'direktt-cf7' ); ?>
+                <?php echo esc_html__( 'Enable', 'direktt-cf7' ); ?>
             </th>
             <td>
                 <input type="checkbox" id="send-to-admin" name="send-to-admin" value="1" <?php checked( $send_to_admin, 1 ); ?>>
