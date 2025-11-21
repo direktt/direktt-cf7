@@ -2,6 +2,12 @@
 #contact-form-editor #direktt .form-table.direktt-cf7-table tr#direktt-cf7-mt-admin {
 	opacity: 0.5;
 }
+
+#contact-form-editor #direktt .form-table.direktt-cf7-table tr#direktt-cf7-mt-subscriber td,
+#contact-form-editor #direktt .form-table.direktt-cf7-table tr#direktt-cf7-mt-admin td {
+	padding-top: 0;
+}
+
 #contact-form-editor #direktt .form-table.direktt-cf7-table:has(input[name="send-to-subscriber"]:checked) tr#direktt-cf7-mt-subscriber,
 #contact-form-editor #direktt .form-table.direktt-cf7-table:has(input[name="send-to-admin"]:checked) tr#direktt-cf7-mt-admin {
 	opacity: 1;
