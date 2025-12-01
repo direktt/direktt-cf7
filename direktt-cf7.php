@@ -301,7 +301,7 @@ function direktt_cf7_send_messages( $contact_form ) {
 add_filter( 'wpcf7_form_hidden_fields', 'direktt_cf7_add_subscription_id' );
 
 function direktt_cf7_add_subscription_id( $hidden_fields ) {
-    global $direktt_user;
+    $direktt_user = Direktt_User::direktt_get_current_user();
     $subscription_id = $direktt_user['direktt_user_id'] ?? '';
     $hidden_fields['direktt-subscription-id'] = $subscription_id;
 
