@@ -89,59 +89,55 @@ function direktt_cf7_render_panel( $post ) {
     $send_to_admin      = get_post_meta( $post->id(), '_direktt_cf7_send_to_admin', true );
     $admin_message      = get_post_meta( $post->id(), '_direktt_cf7_admin_message', true );
     ?>
-    <h1><?php echo esc_html__( 'Direktt Settings', 'direktt-cf7' ); ?></h1>
-    <p><?php echo esc_html__( 'These settings allow you to send messages to subscribers and admins when the form is submitted.', 'direktt-cf7' ); ?></p>
-    <p><?php echo esc_html__( 'You can also customize the messages sent to subscribers and admins.', 'direktt-cf7' ); ?></p>
-    <p><?php echo esc_html__( 'Make sure to save your changes after configuring the settings.', 'direktt-cf7' ); ?></p>
-    <h2><?php echo esc_html__( 'Send to Subscriber', 'direktt-cf7' ); ?></h3>
-    <table class="form-table direktt-cf7-table">
-        <tr>
-            <th scope="row">
-                <?php echo esc_html__( 'Enable', 'direktt-cf7' ); ?>
-            </th>
-            <td>
-                <input type="checkbox" id="send-to-subscriber" name="send-to-subscriber" value="1" <?php checked( $send_to_subscriber, 1 ); ?>>
-                <label for="send-to-subscriber"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the subscriber when the form is submitted.', 'direktt-cf7' ); ?></span></label>
-            </td>
-        </tr>
-        <tr id="direktt-cf7-mt-subscriber">
-            <th scope="row">
-                <label for="subscriber-message"><?php echo esc_html__( 'Message', 'direktt-cf7' ); ?></label>
-            </th>
-            <td>
-                <textarea id="subscriber-message" name="subscriber-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $subscriber_message ); ?></textarea>
-                <p class="description">
-                    <?php echo esc_html__( 'Message sent to subscriber when the form is submitted. TODO etc text.', 'direktt-cf7' ); ?>
-                </p>
-            </td>
-        </tr>
-    </table>
-    <h2><?php echo esc_html__( 'Send to Admin', 'direktt-cf7' ); ?></h3>
-    <table class="form-table direktt-cf7-table">
-        <tr>
-            <th scope="row">
-                <?php echo esc_html__( 'Enable', 'direktt-cf7' ); ?>
-            </th>
-            <td>
-                <input type="checkbox" id="send-to-admin" name="send-to-admin" value="1" <?php checked( $send_to_admin, 1 ); ?>>
-                <label for="send-to-admin"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the admin when the form is submitted.', 'direktt-cf7' ); ?></span></label>
-            </td>
-        </tr>
-        <tr id="direktt-cf7-mt-admin">
-            <th scope="row">
-                <label for="admin-message"><?php echo esc_html__( 'Message', 'direktt-cf7' ); ?></label>
-            </th>
-            <td>
-                <textarea id="admin-message" name="admin-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $admin_message ); ?></textarea>
-                <p class="description">
-                    <?php echo esc_html__( 'Message sent to admin when the form is submitted. TODO etc text.', 'direktt-cf7' ); ?>
-                </p>
-            </td>
-        </tr>
-        <?php
-        wp_nonce_field( 'direktt_cf7_save', 'direktt_cf7_save_nonce' );
-        ?>
-    </table>
+    <div class="contact-form-editor-box-mail">
+        <h2><?php echo esc_html__( 'Direktt Settings', 'direktt-cf7' ); ?></h2>
+        <fieldset>
+            <legend><?php echo esc_html__( 'These settings allow you to send messages to subscribers and admins when the form is submitted.', 'direktt-cf7' ); ?><br><?php echo esc_html__( 'In the following fields, you can use these replacement tags:', 'direktt-cf7' ); ?><br>
+            <?php
+            foreach ( (array) $post->collect_mail_tags() as $mail_tag ) {
+                echo sprintf(
+                    '<span class="%1$s">[%2$s]</span>',
+                    'mailtag code used',
+                    esc_html( $mail_tag )
+                );
+            }
+            ?>
+            </legend>
+            <table class="form-table direktt-cf7-table">
+                <tbody>
+                    <tr>
+                        <th scope="row"><?php echo esc_html__( 'Send to Subscriber', 'direktt-cf7' ); ?></th>
+                        <td>
+                            <input type="checkbox" id="send-to-subscriber" name="send-to-subscriber" value="1" <?php checked( $send_to_subscriber, 1 ); ?>>
+                            <label for="send-to-subscriber"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the subscriber when the form is submitted.', 'direktt-cf7' ); ?></span></label>
+                        </td>
+                    </tr>
+                    <tr id="direktt-cf7-mt-subscriber">
+                        <th scope="row"></th>
+                        <td>
+                            <textarea id="subscriber-message" name="subscriber-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $subscriber_message ); ?></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php echo esc_html__( 'Send to Admin', 'direktt-cf7' ); ?></th>
+                        <td>
+                            <input type="checkbox" id="send-to-admin" name="send-to-admin" value="1" <?php checked( $send_to_admin, 1 ); ?>>
+                            <label for="send-to-admin"><span class="description"><?php echo esc_html__( 'When enabled, a notification will be sent to the admin when the form is submitted.', 'direktt-cf7' ); ?></span></label>
+                        </td>
+                    </tr>
+                    <tr id="direktt-cf7-mt-admin">
+                        <th scope="row"></th>
+                        <td>
+                            <textarea id="admin-message" name="admin-message" cols="100" rows="18" class="large-text code"><?php echo esc_textarea( $admin_message ); ?></textarea>
+                        </td>
+                    </tr>
+                    <?php
+                    wp_nonce_field( 'direktt_cf7_save', 'direktt_cf7_save_nonce' );
+                    ?>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
     <?php
 }
 
