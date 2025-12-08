@@ -12,3 +12,7 @@
 #contact-form-editor #direktt .form-table.direktt-cf7-table:has(input[name="send-to-admin"]:checked) tr#direktt-cf7-mt-admin {
 	opacity: 1;
 }		
+
+#contact-form-editor #direktt .form-table.direktt-cf7-table tr th {
+	width: 200px !important;
+}
